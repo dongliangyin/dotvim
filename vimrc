@@ -1,6 +1,3 @@
-call pathogen#infect()
-call pathogen#helptags()
-
 call plug#begin('~/.vim/plugged')
 
     " Themes
@@ -11,7 +8,11 @@ call plug#begin('~/.vim/plugged')
     " Always loaded plugins
     Plug 'bling/vim-airline'
     Plug 'tpope/vim-fugitive'
+    Plug 'scrooloose/syntastic'
 
+    " Set up fzf
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+    Plug 'junegunn/fzf.vim'
 
     " Only call when NERDTreeToggle has been called
     Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -129,35 +130,17 @@ set completeopt+=longest
 
 set pumheight=12
 
-"------------------------------------------------------------
-" CtrlP
-"------------------------------------------------------------
-
-" Set the max files
-let g:ctrlp_max_files = 10000
-
-" Set the max height
-let g:ctrlp_max_height = 16
-
-" Set ctrlp to lazy update
-let g:ctrlp_lazy_update = 1
-
 " Ignore certain directories
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/env/*,*.pyc
 
-" Bind keys to trigger CtrlP
-noremap <leader>p :CtrlP<CR>
-noremap <leader>o :CtrlPBuffer<CR>
+"------------------------------------------------------------
+" FZF
+"------------------------------------------------------------
 
-" Optimize file searching
-if has("unix")
-    let g:ctrlp_user_command = {
-		\   'types': {
-		\       1: ['.git/', 'cd %s && git ls-files']
-		\   },
-		\   'fallback': 'find %s -type f | head -' . g:ctrlp_max_files
-		\ }
-endif
+nnoremap <silent> <Leader>p        :Files<CR>
+nnoremap <silent> <Leader>C        :Colors<CR>
+nnoremap <silent> <Leader><Enter>  :Buffers<CR>
+nnoremap <silent> <Leader>ag       :Ag <C-R><C-W><CR>
 
 "------------------------------------------------------------
 " Airline
@@ -168,9 +151,6 @@ let g:airline_theme='base16'
 "------------------------------------------------------------
 " Nerdtree
 "------------------------------------------------------------
-
-" Set the max files
-let g:ctrlp_max_files = 10000
 
 " Bind keys to trigger Nerdtree
 map <leader>e :NERDTreeToggle<CR>
